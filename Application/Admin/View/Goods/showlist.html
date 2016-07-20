@@ -67,12 +67,13 @@ a:visited{
         <td width="4%" height="20" bgcolor="d3eaef" class="STYLE10"><div align="center">
           <input type="checkbox" name="checkbox" id="checkbox" />
         </div></td>
-        <td width="10%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">id</span></div></td>
+        <td width="5%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">id</span></div></td>
         <td width="15%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品名称</span></div></td>
-        <td width="10%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品数量</span></div></td>
-        <td width="16%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品价格</span></div></td>
-         <td width="10%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品重量</span></div></td>
-        <td width="27%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品描述</span></div></td>
+        <td width="5%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品数量</span></div></td>
+        <td width="5%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品价格</span></div></td>
+         <td width="5%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品重量</span></div></td>
+        <td width="20%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品描述</span></div></td>
+        <td width="10%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品logo</span></div></td>
         <td width="14%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">基本操作</span></div></td>
       </tr>
       <volist name='goodsdata' id='vol'>
@@ -85,7 +86,8 @@ a:visited{
         <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$vol.goods_number}</div></td>
         <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$vol.goods_price}</div></td>
         <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$vol.goods_weight}</div></td>
-         <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$vol.goods_introduce}</div></td>
+         <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$vol.goods_introduce|htmlspecialchars_decode}</div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center"><img src='{$vol.goods_small_logo}'/></div></td>
         <td height="20" bgcolor="#FFFFFF"><div align="center" class="STYLE21">
         <img src="{:C('AD_IMG_URL')}del.gif" width="10" height="10" /> 删除 | 查看 | <img src="{:C('AD_IMG_URL')}edit.gif" width="10" height="10" /> 编辑</div></td>
       </tr>

@@ -36,11 +36,62 @@ a:visited{
     color:#e1e2e3; text-decoration:none;
 }
 -->
+/*tab标签选项卡*/
+
+#tabbar-div {
+    background: #80BDCB;
+    padding-left: 10px;
+    height: 22px;
+    padding-top: 1px;
+}
+
+#tabbar-div p {
+    margin: 2px 0 0 0;
+}
+
+.tab-front {
+background: #BBDDE5;
+line-height: 20px;
+font-weight: bold;
+padding: 4px 15px 4px 18px;
+border-right: 2px solid #278296;
+cursor: hand;
+cursor: pointer;
+}
+
+.tab-back {
+    color: #FFF;
+    line-height: 20px;
+    padding: 4px 15px 4px 18px;
+    border-right: 1px solid #FFF;
+    cursor: hand;
+    cursor: pointer;
+}
+
+.tab-hover {
+  color: #FFF;
+  background: #94C9D3;
+  line-height: 20px;
+  padding: 4px 15px 4px 18px;
+  border-right: 1px solid #FFF;
+  cursor: hand;
+  cursor: pointer;
+}
+
+.span-hover {
+  background: #DE9C53;
+  line-height: 20px;
+  padding: 4px 15px 4px 18px;
+  border-right: 1px solid #FFF;
+  cursor: hand;
+  cursor: pointer;
+}
 </style>
 
 <script type="text/javascript" src="{:C('PLUGIN_URL')}ueditor/ueditor.config.js"></script>
 <script type="text/javascript" src="{:C('PLUGIN_URL')}ueditor/ueditor.all.js"></script>
 <script type="text/javascript" src="{:C('PLUGIN_URL')}ueditor/ueditor.parse.js"></script>
+<script type="text/javascript" src="{:C('AD_JS_URL')}jquery-1.8.3.min.js"></script>
 </head>
 
 <body>
@@ -64,10 +115,78 @@ a:visited{
       </tr>
     </table></td>
   </tr>
+
+
+  <tr>
+      <td>
+          <div id="tabbar-div">
+                <p>
+                  <span class="tab-front" id="general-tab">通用信息</span>
+                  <span class="tab-back" id="detail-tab">详细描述</span>
+                  <span class="tab-back" id="mix-tab">其他信息</span>
+                  <span class="tab-back" id="properties-tab">商品属性</span>
+                  <span class="tab-back" id="gallery-tab">商品相册</span>
+                  <span class="tab-back" id="linkgoods-tab">关联商品</span>
+                  <span class="tab-back" id="groupgoods-tab">配件</span>
+                  <span class="tab-back" id="article-tab">关联文章</span>
+                </p>
+              </div>
+      </td>
+  </tr>
+
+<script type="text/javascript">
+  //tab选项卡  JQ控制
+  $(function(){
+          //为table 标签加上id属性 (遍历form下所有的table)
+          var ids = ['general', 'detail', 'mix', 'properties', 'gallery', 'linkgoods', 'groupgoods', 'article'];
+          var id;
+          $('#tianjia table').each(function(index, el){
+              id = ids[index] + '-tab-content';
+              $(el).attr('id', id);
+          });
+          
+
+
+            //span标签点击事件 我的写法
+          /*$('#tabbar-div span').on('click', function(){
+              //先把所有的span标签的class属性变为 tab-back
+              $('#tabbar-div span').attr('class', 'tab-back');
+              //把当前点击对象的class属性变为tab-front
+              $(this).attr('class', 'tab-front');
+          });*/
+
+          //span标签点击事件 老师的写法
+          var id = '';
+          $('#tabbar-div span').click(function(){
+                //span标签上的class属性 变为tab-front
+              $('#tabbar-div span').removeClass().addClass('tab-back');
+              $(this).removeClass().addClass('tab-front');
+              //显示相关联的table(id相互关联:  general-tab    general-tab-content)
+              id = $(this).attr('id');
+              id = id + '-content';
+              //隐藏所有的table
+              $("#tianjia table[data!='btnadd']").hide();
+              //显示指定id的table
+              $('#'+id).show();
+          });
+
+          //span标签鼠标滑过
+          $('#tabbar-div span').hover(function(){
+              $("#tabbar-div span[class!='tab-front']").removeClass().addClass('tab-back');
+              if ($(this).attr('class') != 'tab-front') {
+                  $(this).removeClass().addClass('tab-hover');
+              }
+          });
+
+
+
+
+  });
+</script>
   <tr>
     <td>
 
-    <form action='__SELF__' method='post'>
+    <form id='tianjia' action='__SELF__' method='post' enctype='multipart/form-data'>
     <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce">
       <tr>
         <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span class="STYLE19">商品名称：</span></div></td>
@@ -88,19 +207,119 @@ a:visited{
         <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="left"><input type="text" name="goods_weight" /></div></td>
       </tr>
       <tr>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span class="STYLE19">logo图片上传：</span></div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="left"><input type="file" name="goods_logo" /></div></td>
+      </tr>
+    </table>
+
+
+
+    <table style='display:none' width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce">
+      <tr>
         <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span class="STYLE19">详情描述：</span></div></td>
         <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="left">
         <textarea style='width:700px;height:200px' id='goods_introduce' name='goods_introduce' rows="5" cols="30"></textarea>
         </div></td>
       </tr>
-        <tr>
-        <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="left">
-        </div></td>
-        <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="left">
-        <input type='submit' value='添加商品'>
+        
+    </table>
+
+    <table style='display:none' width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce">
+      <tr>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span class="STYLE19">其他信息：</span></div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="left">
+        <textarea style='width:700px;height:200px' id='goods_introduce' name='' rows="5" cols="30"></textarea>
         </div></td>
       </tr>
+        
     </table>
+
+    <table style='display:none' width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce">
+      <tr>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span class="STYLE19">商品属性:</span></div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="left">
+        <textarea style='width:700px;height:200px' id='goods_introduce' name='' rows="5" cols="30"></textarea>
+        </div></td>
+      </tr>
+        
+    </table>
+    <table id='upload_pic' style='display:none' width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce">
+      <tr>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span class="STYLE19 span-hover" onclick='add(this)'>[+]上传文件:</span></div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="left">
+        <input type='file' name='goods_pic[]'/>
+        </div></td>
+      </tr>
+
+      
+        
+    </table>
+   
+      <script type="text/javascript">
+        function add(obj) {
+            var table = $(obj).parent().parent().parent().parent();
+            var str = '<tr>\
+                                  <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span class="STYLE19 span-hover" onclick="rm(this)">[-]上传文件:</span></div></td>\
+                                  <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="left">\
+                                  <input type="file" name="goods_pic[]"/>\
+                                  </div></td>\
+                          </tr>';
+            table.append(str);
+        }
+
+        function rm(obj) {
+            var tr = $(obj).parent().parent().parent();
+            tr.remove();
+        }
+
+    
+
+        
+      </script>
+    <table style='display:none' width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce">
+      <tr>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span class="STYLE19">关联商品:</span></div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="left">
+        <textarea style='width:700px;height:200px' id='goods_introduce' name='' rows="5" cols="30"></textarea>
+        </div></td>
+      </tr>
+        
+    </table>
+
+    <table style='display:none' width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce">
+      <tr>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span class="STYLE19">配件:</span></div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="left">
+        <textarea style='width:700px;height:200px' id='goods_introduce' name='' rows="5" cols="30"></textarea>
+        </div></td>
+      </tr>
+        
+    </table>
+
+    <table style='display:none' width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce">
+      <tr>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span class="STYLE19">关联文章:</span></div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="left">
+        <textarea style='width:700px;height:200px' id='goods_introduce' name='' rows="5" cols="30"></textarea>
+        </div></td>
+      </tr>
+        
+    </table>
+      
+
+      <table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" data='btnadd'>
+      <tr>
+        <td height="20" width='30%' bgcolor="#FFFFFF" class="STYLE6">
+                <div align="left">
+              </div>
+        </td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE6">
+              <div align="left">
+                  <input type='submit' value='添加商品'>
+              </div>
+        </td>
+      </tr>
+        </table>
     </form>
     </td>
   </tr>
@@ -116,6 +335,10 @@ a:visited{
             'link', 'unlink', 'anchor', '|', 
             'simpleupload', 'insertimage', 
         ]]});
+
+
+  //TAB选项卡 
+
 </script>
 </body>
 </html>
