@@ -38,7 +38,7 @@ a img {
               <tr>
                 <td height="17"><div align="right"><a href="pwd.php" target="rightFrame"><img src="{:C('AD_IMG_URL')}pass.gif" width="69" height="17" /></a></div></td>
                 <td><div align="right"><a href="user.php" target="rightFrame"><img src="{:C('AD_IMG_URL')}user.gif" width="69" height="17" /></a></div></td>
-                <td><div align="right"><a href="exit.php" target="_parent"><img src="{:C('AD_IMG_URL')}quit.gif" alt=" " width="69" height="17" /></a></div></td>
+                <td><div align="right"><a href="{:U('Manager/logout')}" target="_parent"><img src="{:C('AD_IMG_URL')}quit.gif" alt=" " width="69" height="17" /></a></div></td>
               </tr>
             </table></td>
           </tr>
@@ -89,7 +89,7 @@ a img {
         <td width="39"><img src="{:C('AD_IMG_URL')}main_30.gif" width="39" height="30" /></td>
         <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td height="20" valign="bottom"><span class="STYLE1">当前登录用户：admin &nbsp;用户角色：管理员</span></td>
+            <td height="20" valign="bottom"><span class="STYLE1">当前登录用户：{:session('user_name')} &nbsp;用户角色：{:session('user_role_id')}</span></td>
             <td valign="bottom" class="STYLE1"><div align="right"></div></td>
           </tr>
         </table></td>

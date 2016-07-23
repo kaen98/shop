@@ -2,7 +2,7 @@
 namespace Admin\Controller;
 use Think\Controller;
 
-class GoodsController extends Controller {
+class GoodsController extends AdminController {
 
 	//商品的列表
 	public function showlist () {
@@ -13,6 +13,58 @@ class GoodsController extends Controller {
 		$goodsdata = $goodsModel  -> order('id desc') -> select();
 		$this -> assign('goodsdata', $goodsdata);
 		$this -> display();
+	}
+
+	//商品的编辑
+	public function edit() {
+		//有修改提交的话则处理
+		if (IS_POST) {
+			$data = I('post.');
+			$data['update_time'] = time();
+			//logo上传修改
+			$this -> upload($data);
+			//商品相册多图上传
+			$this -> uploadPic($data['id']);
+
+			//修改
+			$rst = M('goods') -> save($data);
+			if ($rst) {
+				$this -> success('修改成功', U('showlist'), 3);
+				exit();
+			} else {
+				$this -> error('修改失败', U('edit', array('id' => $data['id'])), 3);
+				exit();
+			}
+
+		}
+
+		//回显商品的信息修改表单
+		$id = I('get.id');
+		//商品数据(根据id)
+		$goods = M('goods') -> find($id);
+		//商品相册数据(根据goods_id)
+		$goods_pics = M('goods_pics') -> where('goods_id=' . $id) -> select();
+		$this -> assign('goods', $goods);
+		$this -> assign('goods_pics', $goods_pics);
+		$this -> display();
+	}
+
+	//删除商品相册的ajax请求
+	public function delPic() {
+		$id = I('post.id');
+		//根据id,查出商品相册的一套图片
+		$goods_pic = M('goods_pics') -> find($id);
+		//删除磁盘上的一套相册
+		if ($goods_pic) {
+			unlink(ROOT_PATH . $goods_pic['goods_pics_b']);
+			unlink(ROOT_PATH . $goods_pic['goods_pics_m']);
+			unlink(ROOT_PATH . $goods_pic['goods_pics_s']);
+		}
+		//删除表中的记录
+		$rst = M('goods_pics') -> delete($id);
+		if ($rst) {
+			$this -> ajaxReturn(array('status' => '1', 'msg' => 'Ok'));
+		}
 	}
 
 	//商品的添加
@@ -38,15 +90,26 @@ class GoodsController extends Controller {
 					exit();
 				}
 			}
-		}		
+		}
+
+
+		//加载商品类型数据  ---下拉框
+		$typeInfo = M('type') -> select();
+		$this -> assign('typeInfo', $typeInfo);		
 		$this -> display();
 	}
 
 
-	//图片上传
+	//logo图片上传
 	public function upload(&$data) {
-		//判断图片有无上传(error为0 ,临时上传成功)
+		//判断是否有文件上传
 		if ($_FILES['goods_logo']['error'] === 0) {
+			//根据$data里有无id 来判断是logo图片是添加还是修改
+			if (isset($data['id'])) {//修改的话,则删除原logo图
+				$goods = M('goods') -> find($data['id']);
+				unlink(ROOT_PATH . $goods['goods_big_logo']);
+				unlink(ROOT_PATH . $goods['goods_small_logo']);
+			}
 			//上传类配置
 			$config = array(
 			    'maxSize'       =>  5242880, //5M限制            上传的文件大小限制 (0-不做限制) 字节单位   
@@ -82,7 +145,7 @@ class GoodsController extends Controller {
 	//多图上传
 	public function uploadPic($goods_id) {
 		//dump($_FILES['goods_pic']);die;
-		//判断有无临时上传成功(多次中的一次成功就算成功)
+		//判断有无图片上传
 		#上传成功标志
 		$flag = false;
 		foreach($_FILES['goods_pic']['error'] as $v) {
@@ -131,6 +194,8 @@ class GoodsController extends Controller {
 						'goods_pics_m' => $goods_pics_m_path,
 						'goods_pics_s' => $goods_pics_s_path,
 					));
+				#删除掉原图
+				unlink($goods_pics_path);
 				
 			}
 		}

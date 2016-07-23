@@ -37,6 +37,7 @@ a:visited{
 }
 -->
 </style>
+
 </head>
 
 <body>
@@ -48,12 +49,12 @@ a:visited{
           <tr>
             <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="6%" height="19" valign="bottom"><div align="center"><img src="{:C('AD_IMG_URL')}tb.gif" width="14" height="14" /></div></td>
-                <td width="94%" valign="bottom"><span class="STYLE1"> 商品管理 -> 商品列表</span></td>
+                <td width="6%" height="19" valign="bottom"><div align="center"><img src="images/tb.gif" width="14" height="14" /></div></td>
+                <td width="94%" valign="bottom"><span class="STYLE1"> 商品类型管理 -> 商品类型列表</span></td>
               </tr>
             </table></td>
             <td><div align="right"><span class="STYLE1">
-              <a href="{:U('tianjia')}"><img src="{:C('AD_IMG_URL')}add.gif" width="10" height="10" /> 添加</a>   &nbsp; 
+              <a href="tianjia.html"><img src="images/add.gif" width="10" height="10" /> 添加</a>   &nbsp; 
               </span>
               <span class="STYLE1"> &nbsp;</span></div></td>
           </tr>
@@ -67,31 +68,26 @@ a:visited{
         <td width="4%" height="20" bgcolor="d3eaef" class="STYLE10"><div align="center">
           <input type="checkbox" name="checkbox" id="checkbox" />
         </div></td>
-        <td width="5%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">id</span></div></td>
-        <td width="15%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品名称</span></div></td>
-        <td width="5%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品数量</span></div></td>
-        <td width="5%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品价格</span></div></td>
-         <td width="5%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品重量</span></div></td>
-        <td width="20%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品描述</span></div></td>
-        <td width="10%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品logo</span></div></td>
+        <td width="10%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">ID</span></div></td>
+        <td width="15%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">类型名称</span></div></td>
+        <td width="14%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">属性数目</span></div></td>
         <td width="14%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">基本操作</span></div></td>
       </tr>
-      <volist name='goodsdata' id='vol'>
+      <foreach name='typeInfo' item='v'>
       <tr>
         <td height="20" bgcolor="#FFFFFF"><div align="center">
           <input type="checkbox" name="checkbox2" id="checkbox2" />
         </div></td>
-        <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="center"><span class="STYLE19">{$vol.id}</span></div></td>
-        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$vol.goods_name}</div></td>
-        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$vol.goods_number}</div></td>
-        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$vol.goods_price}</div></td>
-        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$vol.goods_weight}</div></td>
-         <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$vol.goods_introduce|htmlspecialchars_decode}</div></td>
-        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center"><img src='{$vol.goods_small_logo}'/></div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="center"><span class="STYLE19">{$v.id}</span></div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$v.type_name}</div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$v.attr_num}</div></td>
         <td height="20" bgcolor="#FFFFFF"><div align="center" class="STYLE21">
-        <img src="{:C('AD_IMG_URL')}del.gif" width="10" height="10" /> 删除 | 查看 | <img src="{:C('AD_IMG_URL')}edit.gif" width="10" height="10" /> <a href="{:U('edit', array('id' => $vol['id'] ))}">编辑</a></div></td>
+        <a href='{:U('attr/showlist')}'>属性列表</a>
+        <img src="images/del.gif" width="10" height="10" /> 删除 | 查看 | 
+        <img src="images/edit.gif" width="10" height="10" /> 编辑</div>
+        </td>
       </tr>
-      </volist>
+      </foreach>
     </table></td>
   </tr>
   <tr>
@@ -100,16 +96,16 @@ a:visited{
         <td width="33%"><div align="left"><span class="STYLE22">&nbsp;&nbsp;&nbsp;&nbsp;共有<strong> 243</strong> 条记录，当前第<strong> 1</strong> 页，共 <strong>10</strong> 页</span></div></td>
         <td width="67%"><table width="312" border="0" align="right" cellpadding="0" cellspacing="0">
           <tr>
-            <td width="49"><div align="center"><img src="{:C('AD_IMG_URL')}main_54.gif" width="40" height="15" /></div></td>
-            <td width="49"><div align="center"><img src="{:C('AD_IMG_URL')}main_56.gif" width="45" height="15" /></div></td>
-            <td width="49"><div align="center"><img src="{:C('AD_IMG_URL')}main_58.gif" width="45" height="15" /></div></td>
-            <td width="49"><div align="center"><img src="{:C('AD_IMG_URL')}main_60.gif" width="40" height="15" /></div></td>
+            <td width="49"><div align="center"><img src="images/main_54.gif" width="40" height="15" /></div></td>
+            <td width="49"><div align="center"><img src="images/main_56.gif" width="45" height="15" /></div></td>
+            <td width="49"><div align="center"><img src="images/main_58.gif" width="45" height="15" /></div></td>
+            <td width="49"><div align="center"><img src="images/main_60.gif" width="40" height="15" /></div></td>
             <td width="37" class="STYLE22"><div align="center">转到</div></td>
             <td width="22"><div align="center">
               <input type="text" name="textfield" id="textfield"  style="width:20px; height:12px; font-size:12px; border:solid 1px #7aaebd;"/>
             </div></td>
             <td width="22" class="STYLE22"><div align="center">页</div></td>
-            <td width="35"><img src="{:C('AD_IMG_URL')}main_62.gif" width="26" height="15" /></td>
+            <td width="35"><img src="images/main_62.gif" width="26" height="15" /></td>
           </tr>
         </table></td>
       </tr>

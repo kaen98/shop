@@ -10,5 +10,8 @@ return array(
     'DB_PREFIX'             =>  '',    // 数据库表前缀
 
     //配置插件的
-    'PLUGIN_URL' => '/Application/Common/Plugin/'
+    'PLUGIN_URL' => '/Application/Common/Plugin/',
+
+    //显示页面Trace信息
+    //'SHOW_PAGE_TRACE' => true,
 );

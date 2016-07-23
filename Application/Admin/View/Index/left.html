@@ -70,35 +70,19 @@ a:link{
 <body>
 <div  style="height:100%;">
   <ul id="navigation">
-    <li> <a class="head">商品管理</a>
+
+  <foreach name='authinfotop' item='v'>
+    <li> <a class="head">{$v.auth_name}</a>
       <ul>
-        <li><a href="{:U('Goods/showlist')}" target="rightFrame">商品列表</a></li>
-        <li><a href="Articles.php" target="rightFrame">商品分类</a></li>
+	      <foreach name='authinfosec' item='vv'>
+	      <eq name='v.id' value='$vv.auth_pid'>
+	        <li><a href="__MODULE__/{$vv.auth_c}/{$vv.auth_a}" target="rightFrame">{$vv.auth_name}</a></li>
+	        </eq>
+	        </foreach>
       </ul>
     </li>
-    <li> <a class="head">分类管理</a>
-      <ul>
-        <li><a href="AddKind.php" target="rightFrame">添加分类</a></li>
-        <li><a href="Kinds.php" target="rightFrame">查看/删除分类</a></li>
-      </ul>
-    </li>
-    <li> <a class="head">留言评论管理</a>
-      <ul>
-        <li><a href="messages.php" target="rightFrame">查看/删除留言</a></li>
-        <li><a href="comments.php" target="rightFrame">查看/删除评论</a></li>
-      </ul>
-    </li>
-    <li> <a class="head">友情链接管理</a>
-      <ul>
-        <li><a href="AddLink.php" target="rightFrame">添加友情链接</a></li>
-        <li><a href="Links.php" target="rightFrame">查看/修改友情链接</a></li>
-      </ul>
-    </li>
-    <li> <a class="head">版本信息</a>
-      <ul>
-        <li><a href="http://Www.865171.cn" target="_blank">by Jessica(865171.cn)</a></li>
-      </ul>
-    </li>
+</foreach>
+
   </ul>
 </div>
 </body>

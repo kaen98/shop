@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style type="text/css">
+<!--
+body { 
+	margin-left: 3px;
+	margin-top: 0px;
+	margin-right: 3px;
+	margin-bottom: 0px;
+}
+.STYLE1 {
+	color: #e1e2e3;
+	font-size: 12px;
+}
+.STYLE6 {color: #000000; font-size: 12; }
+.STYLE10 {color: #000000; font-size: 12px; }
+.STYLE19 {
+	color: #344b50;
+	font-size: 12px;
+}
+.STYLE21 {
+	font-size: 12px;
+	color: #3b6375;
+}
+.STYLE22 {
+	font-size: 12px;
+	color: #295568;
+}
+a:link{
+    color:#e1e2e3; text-decoration:none;
+}
+a:visited{
+    color:#e1e2e3; text-decoration:none;
+}
+-->
+
+/*下拉框样式*/
+
+.form-div {
+    background: #f4fafb none repeat scroll 0 0;
+    border: 1px solid #bbdde5;
+    color: #808080;
+    margin: 0 0 10px;
+    padding: 5px;
+}
+</style>
+<script type="text/javascript" src="{:C('AD_JS_URL')}jquery-1.8.3.min.js"></script>
+
+</head>
+
+<body>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="24" bgcolor="#353c44"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="6%" height="19" valign="bottom"><div align="center"><img src="{:C('AD_IMG_URL')}tb.gif" width="14" height="14" /></div></td>
+                <td width="94%" valign="bottom"><span class="STYLE1"> 属性管理 -> 属性列表</span></td>
+              </tr>
+            </table></td>
+            <td><div align="right"><span class="STYLE1">
+              <a href="tianjia.html"><img src="{:C('AD_IMG_URL')}add.gif" width="10" height="10" /> 添加</a>   &nbsp; 
+              </span>
+              <span class="STYLE1"> &nbsp;</span></div></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td>
+          <div class="form-div">
+              按商品类型显示：
+              <select onchange="searchAttr(this.value)" name="goods_type">
+              <option value="0">所有商品类型</option>
+              <foreach name='typeInfo' item='v'>
+                <option value='{$v.id}'>{$v.type_name}</option>
+              </foreach>
+              </select>
+          </div>
+          <script type="text/javascript">
+                //选择商品类型, 刷新属性列表
+                function searchAttr(type_id) {
+                    
+                    
+                    $.post('__CONTROLLER__/getAttrListByTypeId', {type_id: type_id}, function(data) {
+                                 //拼装tr数据
+                                 var str = '';
+                                 for (var i=0; i < data.length; i++) {
+                                      str += '<tr>\
+                                                    <td height="20" bgcolor="#FFFFFF"><div align="center">\
+                                                      <input type="checkbox" name="checkbox2" id="checkbox2" />\
+                                                    </div></td>\
+                                                    <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="center"><span class="STYLE19">'+data[i].id+'</span></div></td>\
+                                                    <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">'+data[i].attr_name+'</div></td>\
+                                                    <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">'+data[i].type_name+'</div></td>\
+                                                    <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">'+(data[i].attr_sel ? '多选' : '唯一')+'</div></td>\
+                                                    <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">'+(data[i].attr_write ? '多选' : '唯一')+'</div></td>\
+                                                    <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">'+data[i].attr_vals+'</div></td>\
+                                                    <td height="20" bgcolor="#FFFFFF"><div align="center" class="STYLE21">\
+                                                    <img src="{:C('AD_IMG_URL')}del.gif" width="10" height="10" /> 删除 | 查看 | <img src="{:C('AD_IMG_URL')}edit.gif" width="10" height="10" /> 编辑</div></td>\
+                                                  </tr>';
+                                 } 
+                                 //获得 table 的除了第一个tr以后的所有tr
+                                 var attr = $('#attrList tr:gt(0)');
+                                  //移除找到的所有tr
+                                  attr.remove();
+                                  //把拼接的数据加入到table中
+                                  $('#attrList').append(str);                  
+                    });
+                }
+          </script>
+    </td>
+  </tr>
+  <tr>
+    <td><table id='attrList' width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce">
+      <tr>
+        <td width="4%" height="20" bgcolor="d3eaef" class="STYLE10"><div align="center">
+          <input type="checkbox" name="checkbox" id="checkbox" />
+        </div></td>
+        <td width="10%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">属性ID</span></div></td>
+        <td width="15%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">属性名称</span></div></td>
+        <td width="14%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">商品类型</span></div></td>
+        <td width="16%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">属性是否可选</span></div></td>
+        <td width="17%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">属性的录入方式</span></div></td>
+        <td width="10%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">属性列表的值</span></div></td>
+        <td width="14%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">基本操作</span></div></td>
+      </tr>
+      <foreach name='attrInfo' item='v'>
+      <tr>
+        <td height="20" bgcolor="#FFFFFF"><div align="center">
+          <input type="checkbox" name="checkbox2" id="checkbox2" />
+        </div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="center"><span class="STYLE19">{$v.id}</span></div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$v.attr_name}</div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$v.type_name}</div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$v['attr_sel'] ? '多选' : '唯一'}</div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$v['attr_write'] ? '从列表选择' : '手工录入'}</div></td>
+        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">{$v.attr_vals}</div></td>
+        <td height="20" bgcolor="#FFFFFF"><div align="center" class="STYLE21">
+        <img src="{:C('AD_IMG_URL')}del.gif" width="10" height="10" /> 删除 | 查看 | <img src="{:C('AD_IMG_URL')}edit.gif" width="10" height="10" /> 编辑</div></td>
+      </tr>
+      </foreach>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="33%"><div align="left"><span class="STYLE22">&nbsp;&nbsp;&nbsp;&nbsp;共有<strong> 243</strong> 条记录，当前第<strong> 1</strong> 页，共 <strong>10</strong> 页</span></div></td>
+        <td width="67%"><table width="312" border="0" align="right" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="49"><div align="center"><img src="{:C('AD_IMG_URL')}main_54.gif" width="40" height="15" /></div></td>
+            <td width="49"><div align="center"><img src="{:C('AD_IMG_URL')}main_56.gif" width="45" height="15" /></div></td>
+            <td width="49"><div align="center"><img src="{:C('AD_IMG_URL')}main_58.gif" width="45" height="15" /></div></td>
+            <td width="49"><div align="center"><img src="{:C('AD_IMG_URL')}main_60.gif" width="40" height="15" /></div></td>
+            <td width="37" class="STYLE22"><div align="center">转到</div></td>
+            <td width="22"><div align="center">
+              <input type="text" name="textfield" id="textfield"  style="width:20px; height:12px; font-size:12px; border:solid 1px #7aaebd;"/>
+            </div></td>
+            <td width="22" class="STYLE22"><div align="center">页</div></td>
+            <td width="35"><img src="{:C('AD_IMG_URL')}main_62.gif" width="26" height="15" /></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+</body>
+</html>
