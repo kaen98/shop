@@ -140,11 +140,15 @@ cursor: pointer;
           //为table 标签加上id属性 (遍历form下所有的table)
           var ids = ['general', 'detail', 'mix', 'properties', 'gallery', 'linkgoods', 'groupgoods', 'article'];
           var id;
+
+          var i=0;
           $('#tianjia table').each(function(index, el){
-              id = ids[index] + '-tab-content';
+              id = ids[index-i] + '-tab-content';
               //table标签的data属性为noid的,不要分配id
               if ($(el).attr('data') !== 'noid') {
                     $(el).attr('id', id);
+              } else {
+                    i++;
               }
               
           });
@@ -198,6 +202,56 @@ cursor: pointer;
         <input type="text" name="goods_name" />
         </div></td>
       </tr>
+        
+        <tr>
+          <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span class="STYLE19">商品分类：</span></div></td>
+          <td height="20" bgcolor="#FFFFFF" class="STYLE19">
+          <div align="left">
+          <!-- 主分类 -->
+              <select name='cat_id' onchange='show_cate(this.value, "cate1")'>
+                    <option value=''>--请选择--</option>
+                    <foreach name='cateInfo' item='v'>
+                        <option value='{$v.id}'>{$v.cate_name}</option>
+                    </foreach>
+              </select>
+          </div></td>
+        </tr>
+
+        <tr>
+          <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span class="STYLE19">扩展分类：</span></div></td>
+          <td height="20" bgcolor="#FFFFFF" class="STYLE19">
+          <div align="left">
+            <!--扩展分类 -->
+              <select name='cate1' id='cate1' onchange='show_cate(this.value, "cate2")'>
+                    <option value=''>--请选择--</option>
+              </select>
+
+              <select name='cate2' id='cate2'>
+                    <option value=''>--请选择--</option>
+              </select>
+          </div>
+          </td>
+
+
+        </tr>
+
+        <script type="text/javascript">
+            function show_cate(id, idname) {
+                //ajax请求, 请求扩展分类的数据
+                $.post('__MODULE__/Category/getCateById', {'id' : id}, function(data){
+                      console.log(data);
+                      //处理data数据, 拼接成扩展分类
+                      var str = '<option value="">--请选择--</option>';
+                      for (var j=0; j < data.length; ++j) {
+                            str += '<option value="'+data[j].id+'">'+data[j].cate_name+'</option>';
+                      }
+                       $('#'+idname).html(str);
+                }, 'json')
+                     
+            }
+
+        </script>
+
       <tr>
         <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span class="STYLE19">价格：</span></div></td>
         <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="left"><input type="text" name="goods_price" /></div></td>

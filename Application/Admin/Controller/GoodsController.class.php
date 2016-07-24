@@ -85,6 +85,8 @@ class GoodsController extends AdminController {
 					$this -> uploadPic($id);
 					//添加商品属性信息(必须要商品基本信息先入库,获取它的id,再操作)
 					$this -> addGoodsAttr($id);
+					//添加扩展分类信息(必须要商品基本信息先入库,获取它的id,再操作)
+					$this -> addCate($id);
 					$this -> success('添加成功', U('showlist'), 1);
 					exit();
 				} else {
@@ -93,12 +95,30 @@ class GoodsController extends AdminController {
 				}
 			}
 		}
-
+		//加载商品分类数据---下拉框
+		$cateInfo = M('category') -> where('pid = 0') -> select();
+		$this -> assign('cateInfo', $cateInfo);
 
 		//加载商品类型数据  ---下拉框
 		$typeInfo = M('type') -> select();
 		$this -> assign('typeInfo', $typeInfo);		
 		$this -> display();
+	}
+
+	//添加扩展分类信息(必须要商品基本信息先入库,获取它的id,再操作)
+	public function addCate($goods_id) {
+		$cate1 = I('post.cate1');
+		$cate2 = I('post.cate2');
+
+		M('goods_cat') -> add(array(
+				'goods_id' => $goods_id,
+				'cat_id' => $cate1,
+			));
+
+		M('goods_cat') -> add(array(
+				'goods_id' => $goods_id,
+				'cat_id' => $cate2,
+			));
 	}
 
 	//添加商品属性信息
