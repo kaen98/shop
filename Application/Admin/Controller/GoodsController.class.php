@@ -81,8 +81,10 @@ class GoodsController extends AdminController {
 
 			if ($goodsModel -> create()) {
 				if ($id = $goodsModel -> add($data)) {
-					//相册多图上传
+					//相册多图上传(必须要商品基本信息先入库,获取它的id,再操作)
 					$this -> uploadPic($id);
+					//添加商品属性信息(必须要商品基本信息先入库,获取它的id,再操作)
+					$this -> addGoodsAttr($id);
 					$this -> success('添加成功', U('showlist'), 1);
 					exit();
 				} else {
@@ -97,6 +99,39 @@ class GoodsController extends AdminController {
 		$typeInfo = M('type') -> select();
 		$this -> assign('typeInfo', $typeInfo);		
 		$this -> display();
+	}
+
+	//添加商品属性信息
+	public function addGoodsAttr($goods_id) {
+		$attrids = I('post.attrids');
+		//有商品属性信息的提交
+		if (!empty($attrids)) {
+			//遍历 判断提交的表单是唯一还是多选
+			foreach ($attrids as $k => $v) {
+				//数组是多选, 字符串是唯一
+				if (is_array($v)) {
+					//多选,还要进行循环遍历
+					foreach ($v as $kk => $vv) {
+						//组装插入数据
+						$arr = array(
+							'goods_id' => $goods_id,
+							'attr_id' => $k,
+							'attr_value' => $vv 
+						);
+						M('goods_attr') -> add($arr);
+					}
+				} else {
+					//唯一
+					//组装插入数据
+					$arr = array(
+						'goods_id' => $goods_id,
+						'attr_id' => $k,
+						'attr_value' => $v
+					);
+					M('goods_attr') -> add($arr);
+				}
+			}
+		}
 	}
 
 

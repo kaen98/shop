@@ -264,25 +264,50 @@ cursor: pointer;
         //显示所选类型对应的属性
          function showAttr(type_id) {
               $.post('__MODULE__/Attr/getAttrListByTypeId', {'type_id' : type_id}, function(data) {
-                      console.log(data);
+                     // console.log(data);
                       //拼接数据
                       var str='';
                       for (var i=0; i < data.length; i++) {
-                          str += ' <tr>\
-                                            <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span class="STYLE19">'+data[i].attr_name+'</span></div></td>\
-                                            <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="left">\
-                                                <input />\
-                                            </div></td>\
-                                      </tr>';
+                                str += ' <tr>';
+                                if (data[i].attr_sel == 0) {
+                                      str += '<td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span></span>'+data[i].attr_name+'</div></td>';
+                                      str += '<td height="20" bgcolor="#FFFFFF" class="STYLE19">';
+                                      str +='<div align="left"><input type="text" name="attrids['+data[i].id+']"/></div>';
+                                      str +='</td>';
+                                } else {
+                                      str += '<td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="right"><span onclick="add_attr(this)">[+]</span>'+data[i].attr_name+'</div></td>';
+                                      str += '<td height="20" bgcolor="#FFFFFF" class="STYLE19">';
+                                      str +='<div align="left">';
+                                      str +='<select name="attrids['+data[i].id+'][]">';
+                                      str +='<option>--请选择--</option>';
+                                      var option = data[i].attr_vals.split(',');
+                                      for (var j = 0; j < option.length; j++) {
+                                            str += '<option value="'+option[j]+'">'+option[j]+'</option>';
+                                      }
+                                      str +='</select>';
+                                      str +='</div>';
+                                      str +='</td>';
+                                }
+                              
+                                str +='</tr>';
                       }
-                      //把数据放入table中
+                      //把数据放入table中 
                       $('#attrTable').html(str);
-
               });
-
-             
          }
 
+         //属性多选表单的 添加事件
+         function add_attr(obj) {
+              //获取span的上级 tr
+              var tr = $(obj).parent().parent().parent();
+              //克隆tr
+              var tr_clone = tr.clone();
+              //修改克隆的tr
+              tr_clone.find('span[onclick]').remove();
+              tr_clone.find('td:first div').prepend('<span onclick="$(this).parent().parent().parent().remove()">[-]</span>');
+              //把克隆的tr 加到 原来的tr之后
+              tr.after(tr_clone);
+         }
 
         </script>
 
