@@ -48,21 +48,21 @@
 		</div>
 		<div class="login_bd">
 			<div class="login_form fl">
-				<form action="" method="post">
+				<form action="__SELF__" method="post">
 					<ul>
 						<li>
 							<label for="">用户名：</label>
-							<input type="text" class="txt" name="username" />
+							<input type="text" class="txt" name="name" />
 						</li>
 						<li>
 							<label for="">密码：</label>
-							<input type="password" class="txt" name="password" />
+							<input type="password" class="txt" name="pwd" />
 							<a href="">忘记密码?</a>
 						</li>
 						<li class="checkcode">
 							<label for="">验证码：</label>
-							<input type="text"  name="checkcode" />
-							<img src="{:C('IMAGES_URL')}checkcode1.jpg" alt="" />
+							<input type="text"  name="checkcode"  />
+							<img src="{:U('getCode')}" alt="" onclick="this.src='__CONTROLLER__/getCode/id/'+Math.random()"/>
 							<span>看不清？<a href="">换一张</a></span>
 						</li>
 						<li>

@@ -18,6 +18,21 @@
 	<script type="text/javascript" src="{:C('JS_URL')}header.js"></script>
 	<script type="text/javascript" src="{:C('JS_URL')}goods.js"></script>
 	<script type="text/javascript" src="{:C('JS_URL')}jqzoom-core.js"></script>
+
+
+	<style type="text/css">
+/*购物车弹出框*/
+.orange{color: #CC0000;}
+a.bt_orange:link,a.bt_orange:visited{color:#FFFFFF;width:107px; height:27px; line-height:27px;background:url({:C('IMAGES_URL')}chakanBtn.jpg) no-repeat; text-align:center; font-weight:bold;cursor:pointer; display:block; _display:inline; float:left; margin-left:60px;}
+a.bt_blue:link,a.bt_blue:visited{color:#FFFFFF;width:107px; height:27px; line-height:27px;background:url({:C('IMAGES_URL')}tiaoxuannBtn.jpg) no-repeat; text-align:center; font-weight:bold;cursor:pointer;display:block;_display:inline; float:right; margin-right:60px;}
+.buy_blank{ width:350px; height:115px; border:3px solid #AAAAAA; position:absolute; background-color:#FFFFFF;}
+.buy_blank p{ line-height:30px;}
+.buy_blank h4{ border-bottom:2px solid #D0D0D0; font-weight:normal; height:30px; line-height:30px;background:url({:C('IMAGES_URL')}buyicon.jpg) no-repeat 10px center; text-indent:28px; margin-bottom:10px; padding-left:20px;}
+.buy_blank h4 span{ float:right; margin:10px 10px 0 0}
+img, fieldset {border:0 none;}
+
+.number_change{cursor:pointer;}
+	</style>
 	
 	<!-- jqzoom 效果 -->
 	<script type="text/javascript">
@@ -130,7 +145,7 @@
 			<div class="cart fl">
 				<dl>
 					<dt>
-						<a href="">去购物车结算</a>
+						<a href="{:U('Shop/flow1')}">去购物车结算</a>
 						<b></b>
 					</dt>
 					<dd>
@@ -568,13 +583,13 @@
 		<div class="goods_content fl mt10 ml10">
 			<!-- 商品概要信息 start -->
 			<div class="summary">
-				<h3><strong>ThinkPad X230(23063T4）12.5英寸笔记本（i5-3230M 8GB 500G HD4000 指纹蓝牙 WIN8PRC 一年质保）</strong></h3>
+				<h3><strong>{$goodsInfo.goods_name}</strong></h3>
 				
 				<!-- 图片预览区域 start -->
 				<div class="preview fl">
 					<div class="midpic">
-						<a href="{:C('IMAGES_URL')}preview_l1.jpg" class="jqzoom" rel="gal1">   <!-- 第一幅图片的大图 class 和 rel属性不能更改 -->
-							<img src="{:C('IMAGES_URL')}preview_m1.jpg" alt="" />               <!-- 第一幅图片的中图 -->
+						<a href="{$goods_pics[0][goods_pics_b]}" class="jqzoom" rel="gal1">   <!-- 第一幅图片的大图 class 和 rel属性不能更改 -->
+							<img src="{$goods_pics[0][goods_pics_m]}" alt="" />               <!-- 第一幅图片的中图 -->
 						</a>
 					</div>
 	
@@ -584,48 +599,13 @@
 						<a href="javascript:;" id="backward" class="off"></a>
 						<a href="javascript:;" id="forward" class="on"></a>
 						<div class="smallpic_wrap">
-							<ul>
-								<li class="cur">
-									<a class="zoomThumbActive" href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: '{:C('IMAGES_URL')}preview_m1.jpg',largeimage: '{:C('IMAGES_URL')}preview_l1.jpg'}"><img src="{:C('IMAGES_URL')}preview_s1.jpg"></a>
+							<ul>	
+							<foreach name='goods_pics' item='v'>
+								<li <eq name='k' value='0'>class="cur"</eq>>
+<a <eq name='k' value='0'>class="zoomThumbActive"</eq> href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: '{$v.goods_pics_m}',largeimage: '{$v.goods_pics_b}'}">
+<img src="{$v.goods_pics_s}"></a>
 								</li>
-								<li>
-									<a href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: '{:C('IMAGES_URL')}preview_m2.jpg',largeimage: '{:C('IMAGES_URL')}preview_l2.jpg'}"><img src="{:C('IMAGES_URL')}preview_s2.jpg"></a>
-								</li>
-								<li>
-									<a href="javascript:void(0);" 
-									rel="{gallery: 'gal1', smallimage: '{:C('IMAGES_URL')}preview_m3.jpg',largeimage: '{:C('IMAGES_URL')}preview_l3.jpg'}">  
-	    							<img src="{:C('IMAGES_URL')}preview_s3.jpg"></a>
-								</li>
-								<li>
-									<a href="javascript:void(0);" 
-									rel="{gallery: 'gal1', smallimage: '{:C('IMAGES_URL')}preview_m4.jpg',largeimage: '{:C('IMAGES_URL')}preview_l4.jpg'}">  
-	    							<img src="{:C('IMAGES_URL')}preview_s4.jpg"></a>
-								</li>
-								<li>
-									<a href="javascript:void(0);" 
-									rel="{gallery: 'gal1', smallimage: '{:C('IMAGES_URL')}preview_m5.jpg',largeimage: '{:C('IMAGES_URL')}preview_l5.jpg'}">  
-	    							<img src="{:C('IMAGES_URL')}preview_s5.jpg"></a>
-								</li>
-								<li>
-									<a href="javascript:void(0);" 
-									rel="{gallery: 'gal1', smallimage: '{:C('IMAGES_URL')}preview_m6.jpg',largeimage: '{:C('IMAGES_URL')}preview_l6.jpg'}">  
-	    							<img src="{:C('IMAGES_URL')}preview_s6.jpg"></a>
-								</li>
-								<li>
-									<a href="javascript:void(0);" 
-									rel="{gallery: 'gal1', smallimage: '{:C('IMAGES_URL')}preview_m7.jpg',largeimage: '{:C('IMAGES_URL')}preview_l7.jpg'}">  
-	    							<img src="{:C('IMAGES_URL')}preview_s7.jpg"></a>
-								</li>
-								<li>
-									<a href="javascript:void(0);" 
-									rel="{gallery: 'gal1', smallimage: '{:C('IMAGES_URL')}preview_m8.jpg',largeimage: '{:C('IMAGES_URL')}preview_l8.jpg'}">  
-	    							<img src="{:C('IMAGES_URL')}preview_s8.jpg"></a>
-								</li>
-								<li>
-									<a href="javascript:void(0);" 
-									rel="{gallery: 'gal1', smallimage: '{:C('IMAGES_URL')}preview_m9.jpg',largeimage: '{:C('IMAGES_URL')}preview_l9.jpg'}">  
-	    							<img src="{:C('IMAGES_URL')}preview_s9.jpg"></a>
-								</li>
+							</foreach>	
 							</ul>
 						</div>
 						
@@ -636,38 +616,28 @@
 				<!-- 商品基本信息区域 start -->
 				<div class="goodsinfo fl ml10">
 					<ul>
-						<li><span>商品编号： </span>971344</li>
-						<li class="market_price"><span>定价：</span><em>￥6399.00</em></li>
-						<li class="shop_price"><span>本店价：</span> <strong>￥6299.00</strong> <a href="">(降价通知)</a></li>
-						<li><span>上架时间：</span>2012-09-12</li>
+						<li><span>商品编号： </span>{$goodsInfo.id}</li>
+						<li class="market_price"><span>定价：</span><em>{$goodsInfo.goods_price}</em></li>
+						<li class="shop_price"><span>本店价：</span> <strong>{$goodsInfo.goods_price}</strong> <a href="">(降价通知)</a></li>
+						<li><span>上架时间：</span>{$goodsInfo.add_time|date='Y-m-d', ###}</li>
 						<li class="star"><span>商品评分：</span> <strong></strong><a href="">(已有21人评价)</a></li> <!-- 此处的星级切换css即可 默认为5星 star4 表示4星 star3 表示3星 star2表示2星 star1表示1星 -->
 					</ul>
 					<form action="" method="post" class="choose">
-						<ul>
+						<ul>	
+						<foreach name='goods_attr_more' item='v'>
 							<li class="product">
 								<dl>
-									<dt>颜色：</dt>
+									<dt>{$v.attr_name}:</dt>
 									<dd>
-										<a class="selected" href="javascript:;">黑色 <input type="radio" name="color" value="黑色" checked="checked" /></a>
-										<a href="javascript:;">白色 <input type="radio" name="color" value="白色" /></a>
-										<a href="javascript:;">蓝色 <input type="radio" name="color" value="蓝色" /></a>
-										<input type="hidden" name="" value="" />
+							<foreach name='v.attr_value' key='k' item='vv'>		
+	<a <eq name='k' value='0'>class="selected"</eq> href="javascript:;">{$vv} <input type="radio" name="color" value="{$vv}" <eq name='k' value='0'>checked="checked"</eq> /></a>
+							</foreach>
+	<input type="hidden" name="" value="" />
 									</dd>
 								</dl>
 							</li>
-
-							<li class="product">
-								<dl>
-									<dt>版本：</dt>
-									<dd>
-										<a href="javascript:;">i3 4G内存版 <input type="radio" name="ver" value="" /></a>
-										<a href="javascript:;">i5 4G内存版 <input type="radio" name="ver" value=""  /></a>
-										<a class="selected" href="javascript:;">i5 8G内存版<input type="radio" name="ver" value="" checked="checked" /></a>
-										<a href="javascript:;">SSD超极本 <input type="radio" name="ver" value="" /></a>
-										<input type="hidden" name="" value="" />
-									</dd>
-								</dl>
-							</li>
+						</foreach>
+							
 							
 							<li>
 								<dl>
@@ -684,7 +654,8 @@
 								<dl>
 									<dt>&nbsp;</dt>
 									<dd>
-										<input type="submit" value="" class="add_btn" />
+									<!-- 调用添加购物车方法 -->
+										<input type="buttion" onclick='addCart({$goodsInfo.id})' value="" class="add_btn" />
 									</dd>
 								</dl>
 							</li>
@@ -712,39 +683,15 @@
 					<div class="introduce detail_div none">
 						<div class="attr mt15">
 							<ul>
-								<li><span>商品名称：</span>ThinkPadX230(2306 3T4）</li>
-								<li><span>商品编号：</span>979631</li>
-								<li><span>品牌：</span>联想（Thinkpad）</li>
-								<li><span>上架时间：</span>2013-09-18 17:58:12</li>
-								<li><span>商品毛重：</span>2.47kg</li>
-								<li><span>商品产地：</span>中国大陆</li>
-								<li><span>显卡：</span>集成显卡</li>
-								<li><span>触控：</span>非触控</li>
-								<li><span>厚度：</span>正常厚度（>25mm）</li>
-								<li><span>处理器：</span>Intel i5</li>
-								<li><span>尺寸：</span>12英寸</li>
+							<foreach name='goods_attr_one' item='v'>
+								<li><span>{$v.attr_name}：</span>{$v.attr_value}</li>
+							</foreach>	
 							</ul>
 						</div>
 
 						<div class="desc mt10">
 							<!-- 此处的内容 一般是通过在线编辑器添加保存到数据库，然后直接从数据库中读出 -->
-							<img src="{:C('IMAGES_URL')}desc1.jpg" alt="" />
-							<p style="height:10px;"></p>
-							<img src="{:C('IMAGES_URL')}desc2.jpg" alt="" />
-							<p style="height:10px;"></p>
-							<img src="{:C('IMAGES_URL')}desc3.jpg" alt="" />
-							<p style="height:10px;"></p>
-							<img src="{:C('IMAGES_URL')}desc4.jpg" alt="" />
-							<p style="height:10px;"></p>
-							<img src="{:C('IMAGES_URL')}desc5.jpg" alt="" />
-							<p style="height:10px;"></p>
-							<img src="{:C('IMAGES_URL')}desc6.jpg" alt="" />
-							<p style="height:10px;"></p>
-							<img src="{:C('IMAGES_URL')}desc7.jpg" alt="" />
-							<p style="height:10px;"></p>
-							<img src="{:C('IMAGES_URL')}desc8.jpg" alt="" />
-							<p style="height:10px;"></p>
-							<img src="{:C('IMAGES_URL')}desc9.jpg" alt="" />
+							{$goodsInfo.goods_introduce|htmlspecialchars_decode}
 						</div>
 					</div>
 					<!-- 商品介绍 end -->
@@ -1070,5 +1017,40 @@
 	<script type="text/javascript">
 		document.execCommand("BackgroundImageCache", false, true);
 	</script>
+
+	<!-- 购物车弹出框 -->
+	<div class="buy_blank" id="cartBox" style="z-index: 99; top: 574px; left: 309.5px; display: none;">
+            <h4>
+                <span><a href="javascript:;" onclick="hideElement('cartBox')"><img src="{:C('IMAGES_URL')}close.jpg" title="点击关闭"></a></span>
+                该商品已成功添加到购物车
+            </h4>
+            <p style="padding-left:60px;">
+                购物车共计 <span class="orange"><strong id="goods_number"></strong></span> 个商品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                合计：<span class="orange"><strong id="goods_totalprice"></strong></span> 元
+            </p>
+            <p>
+                <a onclick="javascript:hideElement('cartBox')" class="bt_orange" target="_black"></a>
+                <a href="javascript:hideElement('cartBox')" class="bt_blue"></a>
+            </p>
+        </div>
 </body>
 </html>
+<script type="text/javascript">
+	//购物车添加方法
+	function addCart(goods_id) {
+		var url = '{:U("shop/addCart")}';
+		$.post(url, {'goods_id':goods_id}, function(data){
+			console.log(data);
+			//显示商品购物车信息
+			$("#goods_number").html(data.number);
+			$('#goods_totalprice').html(data.price);
+			//购物车显示弹出框
+			$("#cartBox").show()
+		});
+	}
+
+	//隐藏购物车弹出框
+	function hideElement(id) {
+		$("#"+id).hide();
+	}
+</script>
